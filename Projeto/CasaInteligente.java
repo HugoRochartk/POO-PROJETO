@@ -39,7 +39,7 @@ public class CasaInteligente {
     }
 
 
-    public CasaInteligente(Integer nif, String nome, String morada) {
+    public CasaInteligente(int nif, String nome, String morada) {
         this.nome = nome;
         this.nif = nif;
         this.morada = morada;
