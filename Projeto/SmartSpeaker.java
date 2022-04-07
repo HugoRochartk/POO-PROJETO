@@ -12,7 +12,7 @@ public class SmartSpeaker extends SmartDevice {
     public static final int MAX = 20; //volume máximo
     
     
-    private int marca;
+    private String marca;
     private int volume;
     private String channel;
 
