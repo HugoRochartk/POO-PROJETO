@@ -11,6 +11,8 @@
 public class SmartSpeaker extends SmartDevice {
     public static final int MAX = 20; //volume máximo
     
+    
+    private int marca;
     private int volume;
     private String channel;
 
@@ -45,6 +47,15 @@ public class SmartSpeaker extends SmartDevice {
     public void volumeDown() {
         if (this.volume>0) this.volume--;
     }
+    
+    public String getMarca(){
+        return this.marca;
+    }
+
+    public void setMarca(String marca){
+        this.marca = marca;
+    }
+    
 
     public int getVolume() {
         return this.volume;
