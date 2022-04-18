@@ -110,6 +110,10 @@ public class CasaInteligente {
         return this.locations.get(s1).contains(s2);
     }
     
+    public CasaInteligente clone(){
+        return new CasaInteligente(this.nome, this.nif, this.morada);
+    }
+    
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
