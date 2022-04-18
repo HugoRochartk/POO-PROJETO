@@ -42,7 +42,7 @@ public class SmartCamera extends SmartDevice {
     }
 
     public void setResolucao(String resolucao) {
-        this.resolucao = String;
+        this.resolucao = resolucao;
     }
 
     public void setTamanho(int tamanho) {
