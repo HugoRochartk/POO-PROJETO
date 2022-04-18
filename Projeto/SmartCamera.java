@@ -1,24 +1,24 @@
 public class SmartCamera extends SmartDevice {
 
-    private int resolucao;  //Resoluçoes em MegaPixeis
+    private String resolucao;  //exemplo: "1280:720" HD, "2048:1080" 2K
     private int tamanho;
 
 
     public SmartCamera(){
         super();
-        this.resolucao = 16;
+        this.resolucao = "1280:720";
         this.tamanho = 10;
     }
 
 
-    public SmartCamera(String id, int res, int tam){
+    public SmartCamera(String id, String res, int tam){
         super(id);
         this.resolucao = res;
         this.tamanho = tam;
     }
 
 
-    public int getResolucao(){
+    public String getResolucao(){
         return this.resolucao;
     }
 
@@ -27,8 +27,8 @@ public class SmartCamera extends SmartDevice {
         return tamanho;
     }
 
-    public void setResolucao(int resolucao) {
-        this.resolucao = resolucao;
+    public void setResolucao(String resolucao) {
+        this.resolucao = String;
     }
 
     public void setTamanho(int tamanho) {
