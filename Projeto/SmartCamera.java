@@ -23,7 +23,13 @@ public class SmartCamera extends SmartDevice {
         this.resolucao = "1280:720";
         this.tamanho = 10;
     }
-
+    
+    
+    public SmartCamera(String id){
+        super(id);
+        this.resolucao = "1280:720";
+        this.tamanho = 10;
+    }
 
     public SmartCamera(String id, String res, int tam){
         super(id);
