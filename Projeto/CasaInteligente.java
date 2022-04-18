@@ -110,7 +110,7 @@ public class CasaInteligente {
         return this.locations.get(s1).contains(s2);
     }
     
-     public boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         CasaInteligente that = (CasaInteligente) o;
