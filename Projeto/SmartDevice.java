@@ -55,5 +55,12 @@ public class SmartDevice {
     public String getID() {
         return this.id;
     }
+    
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        SmartDevice that = (SmartDevice) o;
+        return (this.on == that.on && this.id.equalsIgnoreCase(that.id));
+    }
 
 }
