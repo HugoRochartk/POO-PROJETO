@@ -73,8 +73,8 @@ public class SmartSpeaker extends SmartDevice {
 
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SmartSpeaker)) return false;
+        if (o == null || this.getClass() != o.getClass()) return false;
         SmartSpeaker that = (SmartSpeaker) o;
-        return volume == that.volume && marca == that.marca && channel == that.channel;
+        return (this.volume == that.volume && this.marca.equalsIgnoreCase(that.marca) && this.channel.equalsIgnoreCase(that.channel));
     }
 }
