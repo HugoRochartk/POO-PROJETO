@@ -44,5 +44,13 @@ public class SmartBulb extends SmartDevice {
     public int getTone() {
         return this.tone;
     }
+ 
+ 
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        SmartBulb that = (SmartBulb) o;
+        return (this.tone == that.tone);
+    }
 
 }
