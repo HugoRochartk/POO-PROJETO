@@ -109,5 +109,12 @@ public class CasaInteligente {
     public boolean roomHasDevice (String s1, String s2) {
         return this.locations.get(s1).contains(s2);
     }
+    
+     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        CasaInteligente that = (CasaInteligente) o;
+        return (this.nif == that.nif && this.morada.equalsIgnoreCase(that.morada) && this.nome.equalsIgnoreCase(that.nome) && this.devices.equals(that.devices) && this.locations.equals(that.locations));
+    }
 
 }
