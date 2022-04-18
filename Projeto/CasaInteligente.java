@@ -111,7 +111,7 @@ public class CasaInteligente {
     }
     
     public CasaInteligente clone(){
-        return new CasaInteligente(this.nome, this.nif, this.morada);
+        return new CasaInteligente(this.nif, this.nome, this.morada);
     }
     
     public boolean equals(Object o) {
