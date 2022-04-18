@@ -48,6 +48,13 @@ public class SmartCamera extends SmartDevice {
     public void setTamanho(int tamanho) {
         this.tamanho = tamanho;
     }
+    
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        SmartCamera that = (SmartCamera) o;
+        return (this.resolucao.equalsIgnoreCase(that.resolucao) && this.tamanho == that.tamanho);
+    }
 
     
 }
