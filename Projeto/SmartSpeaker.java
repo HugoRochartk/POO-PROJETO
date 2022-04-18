@@ -36,8 +36,9 @@ public class SmartSpeaker extends SmartDevice {
 
 
 
-    public SmartSpeaker(String cod, String channel, int i) {
+    public SmartSpeaker(String cod, String marca, String channel, int i) {
         super(cod);
+        this.marca = marca;
         this.channel = channel;
         this.volume = i;
     }
