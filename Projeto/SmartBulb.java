@@ -10,9 +10,12 @@
 public class SmartBulb extends SmartDevice {
     public static final int WARM = 2;
     public static final int NEUTRAL = 1;
-    public static final int COLD = 0;
-    
+    public static final int COLD = 3;
+
+    private double size; //TODO alterar construtores para aceitar novas variaveis de instancia
+    private double consumoEnergetico;
     private int tone;
+
 
     /**
      * Constructor for objects of class SmartBulb
@@ -51,6 +54,20 @@ public class SmartBulb extends SmartDevice {
         if (o == null || this.getClass() != o.getClass()) return false;
         SmartBulb that = (SmartBulb) o;
         return (this.tone == that.tone);
+
     }
 
+    public void CalculaConsumoEnergetico(){ //TODO SO PARA CLARIFICAR!!! neste caso os valores atribuidos a WARM, COLD e NEUTRAL sao multiplicados por um valor arbitrario pode ser mudado
+        switch (this.tone){
+            case WARM -> {
+                super.ConsumoDiarioEN = this.size * this.consumoEnergetico + (WARM * 7.5);
+            }
+            case COLD -> {
+                super.ConsumoDiarioEN = this.size * this.consumoEnergetico + (COLD * 7.5);
+            }
+            default -> {
+                super.ConsumoDiarioEN = this.size * this.consumoEnergetico + (NEUTRAL * 7.5);
+            }
+        }
+    }
 }
