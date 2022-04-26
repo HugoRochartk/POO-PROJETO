@@ -10,6 +10,7 @@ public class SmartDevice {
 
     private String id;
     private boolean on;
+    public double ConsumoDiarioEN; //TODO alterar construtores para aceitar novas variaveis de instancia
 
     /**
      * Constructor for objects of class SmartDevice
@@ -55,7 +56,15 @@ public class SmartDevice {
     public String getID() {
         return this.id;
     }
-    
+
+    public double getConsumoDiarioEN() {
+        return this.ConsumoDiarioEN;
+    }
+
+    public void setConsumoDiarioEN(double consumoDiarioEN) {
+        ConsumoDiarioEN = consumoDiarioEN;
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
