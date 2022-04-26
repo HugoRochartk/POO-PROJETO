@@ -19,6 +19,12 @@ public class CasaInteligente {
     private Map<String, SmartDevice> devices; // identificador -> SmartDevice
     private Map<String, List<String>> locations; // Espaço -> Lista codigo dos devices
 
+    private Fornecedor forn;
+
+    private static final int EDP = 1; //possivel método de criação  (valor base
+    private static final int COFIDIS = 2; //possivel método de criação
+    private static final int OutroNome = 3; //possivel método de criação
+
     /**
      * Constructor for objects of class CasaInteligente
      */
@@ -121,4 +127,13 @@ public class CasaInteligente {
         return (this.nif == that.nif && this.morada.equalsIgnoreCase(that.morada) && this.nome.equalsIgnoreCase(that.nome) && this.devices.equals(that.devices) && this.locations.equals(that.locations));
     }
 
+    public int CustoDiarioDispositivos(){
+        int sum = 0;
+        if(this.forn.getId() == EDP){
+            for(SmartDevice dev: this.devices.values()){
+                sum += /*valor  base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto*/) * 0.9; //TODO definir valor base do fornecedor e fator multiplicativo do imposto
+            }
+        }
+        return sum;
+    }
 }
