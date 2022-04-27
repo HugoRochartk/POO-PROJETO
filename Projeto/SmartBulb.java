@@ -12,7 +12,7 @@ public class SmartBulb extends SmartDevice {
     public static final int NEUTRAL = 1;
     public static final int COLD = 3;
 
-    private double size; //TODO alterar construtores para aceitar novas variaveis de instancia
+    private double size;
     private double consumoEnergetico;
     private int tone;
 
