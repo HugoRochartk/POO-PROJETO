@@ -131,8 +131,14 @@ public class CasaInteligente {
         int sum = 0;
         if(this.forn.getId() == EDP){
             for(SmartDevice dev: this.devices.values()){
-                sum += /*valor  base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto*/) * 0.9; //TODO definir valor base do fornecedor e fator multiplicativo do imposto
+                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto*/) * 0.9; //TODO definir valor base do fornecedor e fator multiplicativo do imposto
             }
+        }
+        if (this.forn.getId()== COFIDIS){
+            for(SmartDevice dev: this.devices.values()){
+                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
+            }
+
         }
         return sum;
     }

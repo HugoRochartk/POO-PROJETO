@@ -10,7 +10,7 @@ public class SmartDevice {
 
     private String id;
     private boolean on;
-    public double ConsumoDiarioEN; //TODO alterar construtores para aceitar novas variaveis de instancia
+    public double ConsumoDiarioEN;
 
     /**
      * Constructor for objects of class SmartDevice
@@ -18,22 +18,25 @@ public class SmartDevice {
     public SmartDevice() {
         this.id = "";
         this.on = false;
+        this.ConsumoDiarioEN = 0;
     }
 
 
-    public SmartDevice(String s) {
+    public SmartDevice(String s,double c) {
+        this.ConsumoDiarioEN = c;
         this.id = s;
         this.on = false;
     }
 
 
-    public SmartDevice(String s, boolean b) {
+    public SmartDevice(String s, boolean b,double c) {
+        this.ConsumoDiarioEN = c;
         this.id = s;
         this.on = b;
     }
 
     public SmartDevice clone(){
-        return new SmartDevice(this.id, this.on);
+        return new SmartDevice(this.id, this.on,this.ConsumoDiarioEN);
 
     }
 
