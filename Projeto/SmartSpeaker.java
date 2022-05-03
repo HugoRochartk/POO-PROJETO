@@ -21,6 +21,7 @@ public class SmartSpeaker extends SmartDevice {
     private int volume;
     private String channel;
     private int marca;
+    private double consumoEnergetico;
 
     /**
      * Constructor for objects of class SmartSpeaker
