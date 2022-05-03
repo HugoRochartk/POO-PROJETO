@@ -16,6 +16,7 @@ public class SmartCamera extends SmartDevice {
       - 8K: de 7680 x 4320 pixels a 10080 x 4320 pixels (depende da proporção do aparelho).
     */
     private int tamanho;
+    private double consumoEnergetico;
 
 
     public SmartCamera(){
