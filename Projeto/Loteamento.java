@@ -6,7 +6,7 @@ public class Loteamento {
    
     
     public Loteamento(){
-        this.loteamento = new HashMap<>();  //ta que te pariu oh ze diogo, e o construtor vazio????
+        this.loteamento = new HashMap();  //ta que te pariu oh ze diogo, e o construtor vazio????
     }
     
     public Loteamento(Map<String, CasaInteligente> loteamento) {
