@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class CasaInteligente {
+public class CasaInteligente extends Loteamento{
 
     private String nome;
     private int nif;
