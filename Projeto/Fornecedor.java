@@ -37,6 +37,7 @@ public class Fornecedor {
                     '}';
         }
 
+        
         public Fornecedor clone(){
             return new Fornecedor(this);
         }
