@@ -3,7 +3,12 @@ import java.util.Objects;
 
 public class Loteamento {
     private Map<String, CasaInteligente> loteamento;
-
+   
+    
+    public Loteamento(){
+        this.loteamento = new HashMap<>();  //ta que te pariu oh ze diogo, e o construtor vazio????
+    }
+    
     public Loteamento(Map<String, CasaInteligente> loteamento) {
         this.loteamento = loteamento;
     }
