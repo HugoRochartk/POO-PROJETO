@@ -8,16 +8,36 @@ public class Loteamento {
         this.loteamento = new HashMap<>();
     }
     
-    public Loteamento(Map<Integer, ArrayList<CasaInteligente>> loteamento) {
-        this.loteamento = loteamento;
+    public Loteamento(Map<Integer, ArrayList<CasaInteligente>> lot) {
+
+        for(Map.Entry<Integer, ArrayList<CasaInteligente>> pair: lot.entrySet()){
+            ArrayList<CasaInteligente> lista = new ArrayList<>();
+            for(CasaInteligente casa: pair.getValue()){
+                lista.add(casa.clone());
+            }
+            this.loteamento.put(pair.getKey(), lista);
+        }
+
     }
 
     public Map<Integer, ArrayList<CasaInteligente>> getLoteamento() {
-        return this.loteamento;
+        Map<Integer, ArrayList<CasaInteligente>> mapa = new HashMap<>();
+
+        for(Map.Entry<Integer, ArrayList<CasaInteligente>> pair: this.loteamento.entrySet())
+            mapa.put(pair.getKey(), pair.getValue());
+
+        return mapa;
     }
 
-    public void setLoteamento(Map<Integer, ArrayList<CasaInteligente>> loteamento) {
-        this.loteamento = loteamento;
+    public void setLoteamento(Map<Integer, ArrayList<CasaInteligente>> lot) {
+
+        for(Map.Entry<Integer, ArrayList<CasaInteligente>> pair: lot.entrySet()){
+            ArrayList<CasaInteligente> lista = new ArrayList<>();
+            for(CasaInteligente casa: pair.getValue()){
+                lista.add(casa.clone());
+            }
+            this.loteamento.put(pair.getKey(), lista);
+        }
     }
 
     public void addCasaInteligente(CasaInteligente c){
@@ -36,13 +56,13 @@ public class Loteamento {
         return this.loteamento.get(nif);
     }
 
-
+  /*
     public int getNif(CasaInteligente c){
 
         for(Map.Entry<Integer, ArrayList<CasaInteligente>> pair: this.loteamento.entrySet()){
             if(pair.getValue().contains(c)) return pair.getKey();
         }
-    }
+    }*/ //este metodo n faz sentido
 
 
 
