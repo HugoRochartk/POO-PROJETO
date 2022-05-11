@@ -62,7 +62,7 @@ public class Loteamento {
         for(Map.Entry<Integer, ArrayList<CasaInteligente>> pair: this.loteamento.entrySet()){
             if(pair.getValue().contains(c)) return pair.getKey();
         }
-    }*/ //este metodo n faz sentido
+    }*/ //este metodo nao faz sentido
 
 
 
