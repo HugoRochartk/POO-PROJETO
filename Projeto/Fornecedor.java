@@ -2,38 +2,38 @@ import java.util.Objects;
 
 public class Fornecedor {
 
-        private int id;
+        private String string;
 
         public Fornecedor(){
-            this.id = 0;
+            this.string = "";
         }
 
-        public Fornecedor(int id){
-            this.id = id;
+        public Fornecedor(String string){
+            this.string = string;
         }
 
         public Fornecedor (Fornecedor forn){
-            this.id = forn.getId();
+            this.string = forn.getString();
         }
 
-        public int getId() {
-            return id;
+        public String getString() {
+            return this.string;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setString(String string) {
+            this.string = string;
         }
 
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Fornecedor)) return false;
             Fornecedor that = (Fornecedor) o;
-            return id == that.getId();
+            return this.string.equalsIgnoreCase(that.getString());
         }
 
         public String toString() {
             return "Fornecedor{" +
-                    "id=" + id +
+                    "fornecedor=" + string +
                     '}';
         }
 
