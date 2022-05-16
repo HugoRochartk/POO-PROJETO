@@ -19,14 +19,7 @@ public class Parser {
             switch(linhaPartida[0]){
                 case "Casa":
                     casaMaisRecente = parseCasa(linhaPartida[1]);
-                    if(lot.getLoteamento().containsKey(casaMaisRecente.getNif())){
-                        lot.getLoteamento().get(casaMaisRecente.getNif()).add(casaMaisRecente.clone());
-                    }
-                    else{
-                        ArrayList<CasaInteligente> lista = new ArrayList<>();
-                        lista.add(casaMaisRecente);
-                        lot.getLoteamento().put(casaMaisRecente.getNif(), lista);
-                    }
+                    lot.addCasaInteligente(casaMaisRecente.clone());
                     break;
                 case "Divisao":
                     if (casaMaisRecente == null) System.out.println("Linha inválida.");
