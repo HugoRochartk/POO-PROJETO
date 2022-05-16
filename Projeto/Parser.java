@@ -1,10 +1,17 @@
+import java.nio.file.Files;
 import java.util.List;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 public class Parser {
 
     public void parse(){
-        List<String> linhas = lerFicheiro("dados.csv");
+        List<String> linhas = lerFicheiro("log.txt");
         String[] linhaPartida;
+        Loteamento lot = new Loteamento();
         String divisao = null;
         CasaInteligente casaMaisRecente = null;
         for (String linha : linhas) {
@@ -12,7 +19,14 @@ public class Parser {
             switch(linhaPartida[0]){
                 case "Casa":
                     casaMaisRecente = parseCasa(linhaPartida[1]);
-                    (...)
+                    if(lot.getLoteamento().containsKey(casaMaisRecente.getNif())){
+                        lot.getLoteamento().get(casaMaisRecente.getNif()).add(casaMaisRecente.clone());
+                    }
+                    else{
+                        ArrayList<CasaInteligente> lista = new ArrayList<>();
+                        lista.add(casaMaisRecente);
+                        lot.getLoteamento().put(casaMaisRecente.getNif(), lista);
+                    }
                     break;
                 case "Divisao":
                     if (casaMaisRecente == null) System.out.println("Linha inválida.");
@@ -24,7 +38,7 @@ public class Parser {
                     if (divisao == null) System.out.println("Linha inválida.");
                     SmartBulb sd = parseSmartBulb(linhaPartida[1]);
                     casaMaisRecente.addDevice(sd);
-                    casaMaisRecente.addToRoom(divisao, sd.getId());
+                    casaMaisRecente.addToRoom(divisao, sd.getID());
                     (...)
                     break;
                 (...)
@@ -47,8 +61,9 @@ public class Parser {
         String[] campos = input.split(",");
         String nome = campos[0];
         int nif = Integer.parseInt(campos[1]);
-        (...)
-        return new CasaInteligente(...);
+        Fornecedor forn = new Fornecedor();
+        forn.setString(campos[2]);
+        return new CasaInteligente(nif, nome, forn);
     }
 
 
