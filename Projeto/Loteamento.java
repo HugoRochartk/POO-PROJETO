@@ -46,11 +46,17 @@ public class Loteamento {
          }
          else{
              ArrayList<CasaInteligente> lista = new ArrayList<>();
-             this.loteamento.put(c.getNif(), lista.add(c.clone());
+             lista.add(c.clone());
+             this.loteamento.put(c.getNif(), lista);
          }
 
     }
 
+    public void deleteCasaInteligente(CasaInteligente c){
+        if(this.loteamento.containsKey(c.getNif())){
+            this.loteamento.get(c.getNif()).remove(c);
+        }
+    }
 
     public ArrayList<CasaInteligente> getCasasInteligentes(int nif){  //dada uma pessoa retorna as casas que lhe pertencem
         return this.loteamento.get(nif);
@@ -79,5 +85,17 @@ public class Loteamento {
         return "Loteamento{" +
                 "loteamento=" + loteamento +
                 '}';
+    }
+
+    public Loteamento clone(){
+         Loteamento lot = new Loteamento();
+        for(Map.Entry<Integer,ArrayList<CasaInteligente>> pair: this.loteamento.entrySet()){
+            ArrayList<CasaInteligente> lista = new ArrayList<>();
+            for(CasaInteligente casa: pair.getValue()){
+                lista.add(casa.clone());
+            }
+            lot.loteamento.put(pair.getKey(), lista);
+        }
+        return lot;
     }
 }
