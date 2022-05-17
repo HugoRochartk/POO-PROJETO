@@ -60,6 +60,9 @@ public class SmartDevice {
         return this.id;
     }
 
+    public void setID(String id){
+        this.id = id;
+    }
     public double getConsumoDiarioEN() {
         return this.ConsumoDiarioEN;
     }
