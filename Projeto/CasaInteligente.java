@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 /**
  * A CasaInteligente faz a gestão dos SmartDevices que existem e dos 
  * espaços (as salas) que existem na casa.
@@ -12,10 +11,11 @@ public class CasaInteligente extends Loteamento{
 
     private String nome;
     private int nif;
-   // private String morada;
+
     private Map<String, SmartDevice> devices; // identificador -> SmartDevice
     private Map<String, List<String>> locations; // Espaço -> Lista codigo dos devices
     private Fornecedor forn;
+    private String deviceID = "1";
 
     private static final int EDP = 1; //possivel método de criação  (valor base
     private static final int COFIDIS = 2; //possivel método de criação
@@ -50,6 +50,23 @@ public class CasaInteligente extends Loteamento{
         this.forn = forn;
     }
 
+    public CasaInteligente(CasaInteligente casa){
+        this.nif = casa.getNif();
+        this.nome = casa.getNome();
+        this.forn = casa.getForn();
+
+        for(SmartDevice dev : casa.devices.values()){
+            this.devices.put(dev.getID(),dev.clone());
+        }
+
+        for(Map.Entry<String, List<String>> pair: casa.locations.entrySet()){
+            List<String> lista = new ArrayList<>();
+            for(String id: pair.getValue()){
+                lista.add(id);
+            }
+            this.locations.put(pair.getKey(), lista);
+        }
+    }
     
     public void setDeviceOn(String devCode) {
         this.devices.get(devCode).turnOn();
@@ -84,7 +101,13 @@ public class CasaInteligente extends Loteamento{
     }
 
     public void addDevice(SmartDevice s) {
+
+        s.setID(this.deviceID);
+        s.setOn(false);
         this.devices.put(s.getID(), s.clone());
+        int num = Integer.parseInt(this.deviceID);
+        num +=1;
+        this.deviceID = Integer.toString(num);
     }
     
     public SmartDevice getDevice(String s) {
@@ -121,102 +144,35 @@ public class CasaInteligente extends Loteamento{
     }
     
     public CasaInteligente clone(){
-        return new CasaInteligente(this.nif, this.nome, this.morada);
+        return new CasaInteligente(this);
     }
     
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         CasaInteligente that = (CasaInteligente) o;
-        return (this.nif == that.nif && this.morada.equalsIgnoreCase(that.morada) && this.nome.equalsIgnoreCase(that.nome) && this.devices.equals(that.devices) && this.locations.equals(that.locations));
+        return (this.nif == that.nif && this.nome.equalsIgnoreCase(that.nome) && this.devices.equals(that.devices) && this.locations.equals(that.locations));
     }
 
     public int CustoDiarioDispositivos(){
         int sum = 0;
-        if( (this.forn.getString().equalsIgnoreCase("EDP Comercial")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto*/) * 0.9; //TODO definir valor base do fornecedor e fator multiplicativo do imposto
-            }
-        }
-        if (this.forn.getString().equalsIgnoreCase("Galp Energia")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
 
-        }
-        if (this.forn.getString().equalsIgnoreCase("Iberdrola")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("Endesa")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("Gold Energy")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("Coopernico")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("Enat")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("YIce")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("MEO Energia")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("Muon")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("Luzboa")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("Energia Simples")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("SU Eletricidade")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
-        }
-        if (this.forn.getString().equalsIgnoreCase("EDA")){
-            for(SmartDevice dev: this.devices.values()){
-                sum += /*valor base*/ * dev.getConsumoDiarioEN() * (1+ /*Imposto */) * 0.9;
-            }
-
+        for(SmartDevice dev: this.devices.values()){
+            sum += this.forn.getValorBase() * dev.getConsumoDiarioEN() * (1+ 0.35) * 0.9;
         }
 
         return sum;
+    }
+
+    @Override
+    public String toString() {
+        return "CasaInteligente{" +
+                "nome='" + nome + '\'' +
+                ", nif=" + nif +
+                ", devices=" + devices +
+                ", locations=" + locations +
+                ", forn=" + forn +
+                ", deviceID='" + deviceID + '\'' +
+                '}';
     }
 }
