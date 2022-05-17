@@ -1,6 +1,6 @@
 public class SmartCamera extends SmartDevice {
 
-    private String resolucao;  
+    private String resolucao;
     /*- VGA: 640 x 480 pixels;
       - QVGA: 320 x 240 pixels;
       - WVGA: 800 x 480 pixels;
@@ -21,21 +21,32 @@ public class SmartCamera extends SmartDevice {
 
     public SmartCamera(){
         super();
-        this.resolucao = "1280:720";
+        this.resolucao = "(1280x720)";
         this.tamanho = 10;
-    }
-    
-    
-    public SmartCamera(String id){
-        super(id);
-        this.resolucao = "1280:720";
-        this.tamanho = 10;
+        this.consumoEnergetico = 7.0;
     }
 
-    public SmartCamera(String id, String res, int tam){
-        super(id);
+
+    public SmartCamera(String id, boolean b, double consumo){
+        super(id,b,consumo);
+        this.resolucao = "(1280x720)";
+        this.tamanho = 10;
+        this.consumoEnergetico = 7.0;
+    }
+
+    public SmartCamera(String id, boolean b, double consumo, String res, int tam, double consumoEnergetico){
+        super(id,b,consumo);
         this.resolucao = res;
         this.tamanho = tam;
+        this.consumoEnergetico = consumoEnergetico;
+    }
+
+    public SmartCamera(String res, int tam, double consumoEnergetico){
+        super();
+        this.resolucao = res;
+        this.tamanho = tam;
+        this.consumoEnergetico = consumoEnergetico;
+
     }
 
 
@@ -55,13 +66,43 @@ public class SmartCamera extends SmartDevice {
     public void setTamanho(int tamanho) {
         this.tamanho = tamanho;
     }
-    
+
+    public SmartCamera clone(){
+        return new SmartCamera(this.resolucao, this.tamanho, this.consumoEnergetico);
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         SmartCamera that = (SmartCamera) o;
-        return (this.resolucao.equalsIgnoreCase(that.resolucao) && this.tamanho == that.tamanho);
+        return (this.resolucao.equalsIgnoreCase(that.resolucao) && this.tamanho == that.tamanho && this.consumoEnergetico == that.consumoEnergetico);
     }
 
-    
+
+    public void calculaConsumoEnergetico(){
+
+
+        switch(resolucao.length()){
+            case 9 -> {
+                super.ConsumoDiarioEN = this.consumoEnergetico * (10);
+            }
+            case 10 -> {
+                super.ConsumoDiarioEN = this.consumoEnergetico * (15);
+            }
+
+            case 11 -> {
+                super.ConsumoDiarioEN = this.consumoEnergetico * (20);
+            }
+
+            case 12 ->{
+                super.ConsumoDiarioEN = this.consumoEnergetico * (30);
+            }
+
+        }
+
+
+
+    }
+
+
 }
