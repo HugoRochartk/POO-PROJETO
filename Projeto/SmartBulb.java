@@ -27,15 +27,15 @@ public class SmartBulb extends SmartDevice {
         this.size = 0.0;
     }
 
-    public SmartBulb(String id, int tone,double consumoEnergetico,double size) {
-        super(id);
+    public SmartBulb( int tone,double consumoEnergetico,double size) {
+        super();
         this.tone = tone;
         this.consumoEnergetico = 0.0;
         this.size = 0.0;
     }
 
-    public SmartBulb(String id) {
-        super(id);
+    public SmartBulb(String id,boolean on, double consumo) {
+        super(id,on,consumo);
         this.tone = NEUTRAL;
     }
 
