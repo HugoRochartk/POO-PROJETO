@@ -52,27 +52,15 @@ public class Loteamento {
 
     }
 
-    public void deleteCasaInteligente(CasaInteligente c){
-        if(this.loteamento.containsKey(c.getNif())){
-            this.loteamento.get(c.getNif()).remove(c);
-        }
-    }
 
     public ArrayList<CasaInteligente> getCasasInteligentes(int nif){  //dada uma pessoa retorna as casas que lhe pertencem
         return this.loteamento.get(nif);
     }
 
-  /*
-    public int getNif(CasaInteligente c){
-
-        for(Map.Entry<Integer, ArrayList<CasaInteligente>> pair: this.loteamento.entrySet()){
-            if(pair.getValue().contains(c)) return pair.getKey();
-        }
-    }*/ //este metodo nao faz sentido
 
 
 
-    @Override
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -80,22 +68,10 @@ public class Loteamento {
         return Objects.equals(loteamento, that.loteamento);
     }
 
-    @Override
+
     public String toString() {
         return "Loteamento{" +
                 "loteamento=" + loteamento +
                 '}';
-    }
-
-    public Loteamento clone(){
-         Loteamento lot = new Loteamento();
-        for(Map.Entry<Integer,ArrayList<CasaInteligente>> pair: this.loteamento.entrySet()){
-            ArrayList<CasaInteligente> lista = new ArrayList<>();
-            for(CasaInteligente casa: pair.getValue()){
-                lista.add(casa.clone());
-            }
-            lot.loteamento.put(pair.getKey(), lista);
-        }
-        return lot;
     }
 }
