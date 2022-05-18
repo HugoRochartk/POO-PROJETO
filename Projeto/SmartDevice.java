@@ -1,4 +1,4 @@
-/**
+**
  * A classe SmartDevice é um contactor simples.
  * Permite ligar ou desligar circuitos. 
  *
@@ -51,7 +51,16 @@ public class SmartDevice {
     public boolean getOn() {
         return this.on;
     }
-    
+
+
+    public String toString() {
+        return "SmartDevice{" +
+                "id='" + id + '\'' +
+                ", on=" + on +
+                ", ConsumoDiarioEN=" + ConsumoDiarioEN +
+                '}';
+    }
+
     public void setOn(boolean b) {
         this.on = b;
     }
@@ -60,22 +69,23 @@ public class SmartDevice {
         return this.id;
     }
 
-    public void setID(String id){
+    public void setID(String id) {
         this.id = id;
     }
+
     public double getConsumoDiarioEN() {
         return this.ConsumoDiarioEN;
     }
 
     public void setConsumoDiarioEN(double consumoDiarioEN) {
-        ConsumoDiarioEN = consumoDiarioEN;
+        this.ConsumoDiarioEN = consumoDiarioEN;
     }
 
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         SmartDevice that = (SmartDevice) o;
-        return (this.on == that.on && this.id.equalsIgnoreCase(that.id));
+        return (this.on == that.on && this.id.equalsIgnoreCase(that.id) && this.ConsumoDiarioEN == that.ConsumoDiarioEN);
     }
 
 }
