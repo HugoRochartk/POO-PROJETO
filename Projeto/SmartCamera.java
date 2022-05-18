@@ -1,6 +1,6 @@
 public class SmartCamera extends SmartDevice {
 
-    private String resolucao;
+    private String resolucao;  
     /*- VGA: 640 x 480 pixels;
       - QVGA: 320 x 240 pixels;
       - WVGA: 800 x 480 pixels;
@@ -25,8 +25,8 @@ public class SmartCamera extends SmartDevice {
         this.tamanho = 10;
         this.consumoEnergetico = 7.0;
     }
-
-
+    
+    
     public SmartCamera(String id, boolean b, double consumo){
         super(id,b,consumo);
         this.resolucao = "(1280x720)";
@@ -71,6 +71,15 @@ public class SmartCamera extends SmartDevice {
         return new SmartCamera(this.resolucao, this.tamanho, this.consumoEnergetico);
     }
 
+
+    public String toString() {
+        return "SmartCamera{" +
+                "resolucao='" + resolucao + '\'' +
+                ", tamanho=" + tamanho +
+                ", consumoEnergetico=" + consumoEnergetico +
+                '}';
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
@@ -82,27 +91,27 @@ public class SmartCamera extends SmartDevice {
     public void calculaConsumoEnergetico(){
 
 
-        switch(resolucao.length()){
-            case 9 -> {
-                super.ConsumoDiarioEN = this.consumoEnergetico * (10);
-            }
-            case 10 -> {
-                super.ConsumoDiarioEN = this.consumoEnergetico * (15);
-            }
+          switch(resolucao.length()){
+              case 9 -> {
+                  super.ConsumoDiarioEN = this.consumoEnergetico * (10);
+              }
+              case 10 -> {
+                  super.ConsumoDiarioEN = this.consumoEnergetico * (15);
+              }
 
-            case 11 -> {
-                super.ConsumoDiarioEN = this.consumoEnergetico * (20);
-            }
+              case 11 -> {
+                  super.ConsumoDiarioEN = this.consumoEnergetico * (20);
+              }
 
-            case 12 ->{
-                super.ConsumoDiarioEN = this.consumoEnergetico * (30);
-            }
+              case 12 ->{
+                  super.ConsumoDiarioEN = this.consumoEnergetico * (30);
+              }
 
-        }
+          }
 
 
 
     }
 
-
+    
 }
