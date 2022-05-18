@@ -23,20 +23,29 @@ public class SmartBulb extends SmartDevice {
     public SmartBulb() {
         super();
         this.tone = NEUTRAL;
-        this.consumoEnergetico = 0.0;
-        this.size = 0.0;
+        this.consumoEnergetico = 7.0;
+        this.size = 11.0;
     }
 
-    public SmartBulb( int tone,double consumoEnergetico,double size) {
+    public SmartBulb(String id, boolean b, double consumo, int tone,double consumoEnergetico,double size) {
+        super(id,b,consumo);
+        this.tone = tone;
+        this.consumoEnergetico = consumoEnergetico;
+        this.size = size;
+    }
+
+    public SmartBulb(int tone,double consumoEnergetico,double size) {
         super();
         this.tone = tone;
-        this.consumoEnergetico = 0.0;
-        this.size = 0.0;
+        this.consumoEnergetico = consumoEnergetico;
+        this.size = size;
     }
 
-    public SmartBulb(String id,boolean on, double consumo) {
-        super(id,on,consumo);
+    public SmartBulb(String id, boolean b, double consumo) {
+        super(id, b, consumo);
         this.tone = NEUTRAL;
+        this.consumoEnergetico = 7.0;
+        this.size = 11.0;
     }
 
     public void setTone(int t) {
@@ -51,8 +60,16 @@ public class SmartBulb extends SmartDevice {
     public int getTone() {
         return this.tone;
     }
- 
- 
+
+
+    public String toString() {
+        return "SmartBulb{" +
+                "size=" + size +
+                ", consumoEnergetico=" + consumoEnergetico +
+                ", tone=" + tone +
+                '}';
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
