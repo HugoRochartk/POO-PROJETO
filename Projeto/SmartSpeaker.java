@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class SmartSpeaker extends SmartDevice {
     public static final int MAX = 20; //volume máximo
-
+    
 
     private int volume;
     private String channel;
@@ -55,7 +55,7 @@ public class SmartSpeaker extends SmartDevice {
     public void volumeDown() {
         if (this.volume>0) this.volume--;
     }
-
+    
     public String getMarca(){
         return this.marca;
     }
@@ -75,7 +75,7 @@ public class SmartSpeaker extends SmartDevice {
     public int getVolume() {
         return this.volume;
     }
-
+    
     public String getChannel() {
         return this.channel;
     }
@@ -100,9 +100,9 @@ public class SmartSpeaker extends SmartDevice {
                 '}';
     }
 
-    public void CalculaConsumoEnergetico(){
+    public void CalculaConsumoEnergetico(){ //TODO SO PARA CLARIFICAR !!! neste caso como esta classe nao recebe o valor do consumo da lampada como variavel de instancia esse passa a ser o valor arbitrario e os valores passados a MARSHALL, BOSE e JBL sao agora os fatores multiplicativos do volume.(neste caso nao faz tant sentido mas foi pra facilitar)
 
-        super.ConsumoDiarioEN = this.consumoEnergetico * this.volume;
+                super.ConsumoDiarioEN = this.consumoEnergetico * this.volume;
 
 
     }
