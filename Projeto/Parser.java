@@ -4,11 +4,13 @@ import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Parser {
+    int rand = 2;
 
-    public void parse(){
+    public Loteamento parse(){
         List<String> linhas = lerFicheiro("log.txt");
         String[] linhaPartida;
         Loteamento lot = new Loteamento();
@@ -18,8 +20,8 @@ public class Parser {
             linhaPartida = linha.split(":", 2);
             switch(linhaPartida[0]){
                 case "Casa":
+                    if(casaMaisRecente != null) lot.addCasaInteligente(casaMaisRecente);
                     casaMaisRecente = parseCasa(linhaPartida[1]);
-                    lot.addCasaInteligente(casaMaisRecente.clone());
                     break;
                 case "Divisao":
                     if (casaMaisRecente == null) System.out.println("Linha inválida.");
@@ -33,6 +35,7 @@ public class Parser {
                     assert casaMaisRecente != null;
                     casaMaisRecente.addDevice(sd);
                     casaMaisRecente.addToRoom(divisao, sd.getID());
+                   // System.out.println(casaMaisRecente.toString());
                     break;
                 case "SmartSpeaker":
                     if (divisao == null) System.out.println("Linha inválida.");
@@ -48,12 +51,17 @@ public class Parser {
                     casaMaisRecente.addDevice(sc);
                     casaMaisRecente.addToRoom(divisao, sc.getID());
                     break;
+                case "Fornecedor":
+                    Fornecedor forn = parseFornecedor(linhaPartida[1]);
+                    break;
                 default:
                     System.out.println("Linha inválida.");
                     break;
             }
+
         }
         System.out.println("done!");
+        return lot;
     }
 
     public List<String> lerFicheiro(String nomeFich) {
@@ -74,10 +82,14 @@ public class Parser {
 
     public SmartBulb parseSmartBulb(String input){
         String[] campos = input.split(",");
-        int tonalidade = Integer.parseInt(campos[0]);
+        String tonalidade = campos[0];
+        int ton = 1;
+        if(tonalidade.equalsIgnoreCase("Neutral")) ton=1;
+        if(tonalidade.equalsIgnoreCase("Warm")) ton=2;
+        if(tonalidade.equalsIgnoreCase("Cold")) ton=3;
         double size = Double.parseDouble(campos[1]);
         double consumo = Double.parseDouble(campos[2]);
-        return new SmartBulb(tonalidade, consumo, size);
+        return new SmartBulb(ton, consumo, size);
     }
 
     public SmartSpeaker parseSmartSpeaker(String input){
@@ -100,5 +112,15 @@ public class Parser {
     }
 
 
+    public Fornecedor parseFornecedor(String input){
+        Fornecedor forn = new Fornecedor();
+        forn.setString(input);
+        forn.setValorBase(rand);
+        rand++;
+        return forn;
+    }
+
+
 
 }
+
