@@ -10,8 +10,6 @@ public class Controller {
 
 
            System.out.println("0: Carregar dados.\n");
-           System.out.println("1: Criar casas e dispositivos manualmente.\n");
-
 
            int op = sc.nextInt();
 
@@ -21,6 +19,7 @@ public class Controller {
              System.out.println("Dados carregados com sucesso!\n");
 
              int opcao;
+             String texto;
 
              while(true){
                  System.out.println("Pretende avancar no tempo?\n");
@@ -32,29 +31,29 @@ public class Controller {
                  }
                  System.out.println("Quanto tempo, em dias, pretende avançar no tempo?\n");
                  opcao = sc.nextInt();
-                 Map<CasaInteligente, Double> tot = calculaFaturasTodas(opcao, lot);
+                 System.out.println("Indique a operação que pretende realizar:");
+                 System.out.println("0:Calcular faturas de todas as casas.");
+                 System.out.println("1:Alterar valores base fornecedores");
+                 opcao = sc.nextInt();
+                 if (opcao == 0) {
+
+                     Map<CasaInteligente, Double> tot = calculaFaturasTodas(opcao, lot);
+                     for (Map.Entry<CasaInteligente, Double> pair : tot.entrySet()) {
+                         System.out.println("Casa:" + pair.getKey() + "; Fatura:" + pair.getValue() + ";");
+                     }
+                 }
+
+                 if (opcao == 1){
+                    System.out.println("Insira o fornecedor que quer alterar:"); //TODO terminar alteracao valores fornecedores, ligar e desligar todos e um dispositivo em especifico, ver diagrama de classes e começar o relatorio.
 
 
+                 }
              }
 
              System.out.println("Fim\n");
 
            }
 
-           if(op==1){
-               System.out.println("Coloque abaixo os dados para a criação de uma casa:\n")
-               System.out.println("Nome: \n");
-               String nome = sc.nextLine();
-               System.out.println("Nif:\n ");
-               int nif = sc.nextInt();
-               System.out.println("Fornecedor:\n");
-               String nomeForn = sc.nextLine();
-               System.out.println("Valor base de venda do fornecedor (inteiro):\n");
-               int vb = sc.nextInt();
-               Fornecedor fornec = new Fornecedor(nomeForn, vb);
-               CasaInteligente casa = new CasaInteligente(nif, nome, fornec);
-
-           }
 
     }
 
