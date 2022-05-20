@@ -18,34 +18,30 @@ public class Controller {
              Loteamento lot = p.parse();
              System.out.println("Dados carregados com sucesso!\n");
 
-             int opcao;
-             String texto;
+             int dias;
+             int opcao2;
 
              while(true){
                  System.out.println("Pretende avancar no tempo?\n");
                  System.out.println("0: Sim\n");
                  System.out.println("1: Nao\n");
-                 opcao = sc.nextInt();
-                 if(opcao==1){
+                 opcao2 = sc.nextInt();
+                 if(opcao2==1){
                      break;
                  }
                  System.out.println("Quanto tempo, em dias, pretende avançar no tempo?\n");
-                 opcao = sc.nextInt();
+                 dias = sc.nextInt();
                  System.out.println("Indique a operação que pretende realizar:");
                  System.out.println("0:Calcular faturas de todas as casas.");
                  System.out.println("1:Alterar valores base fornecedores");
-                 opcao = sc.nextInt();
-                 if (opcao == 0) {
+                 opcao2 = sc.nextInt();
+                 if (opcao2 == 0) {
+                    printFaturasTodas(dias,lot);
 
-                     Map<CasaInteligente, Double> tot = calculaFaturasTodas(opcao, lot);
-                     for (Map.Entry<CasaInteligente, Double> pair : tot.entrySet()) {
-                         System.out.println("Casa:" + pair.getKey() + "; Fatura:" + pair.getValue() + ";");
-                     }
                  }
 
-                 if (opcao == 1){
-                    System.out.println("Insira o fornecedor que quer alterar:"); //TODO terminar alteracao valores fornecedores, ligar e desligar todos e um dispositivo em especifico, ver diagrama de classes e começar o relatorio.
-
+                 if (dias == 1){
+                    alteraValForn(lot);
 
                  }
              }
@@ -57,6 +53,30 @@ public class Controller {
 
     }
 
+    public void printFaturasTodas(int dias, Loteamento lot){
+        Map<CasaInteligente, Double> tot = calculaFaturasTodas(dias, lot);
+        for (Map.Entry<CasaInteligente, Double> pair : tot.entrySet()) {
+            System.out.println("Casa:" + pair.getKey() + "; Fatura:" + pair.getValue() + ";");
+        }
+    }
+
+    public void alteraValForn(Loteamento lot){
+        Scanner sc = new Scanner(System.in);
+        String texto;
+        int valBase;
+        System.out.println("Insira o fornecedor que quer alterar:"); //TODO terminar alteracao valores fornecedores, ligar e desligar todos e um dispositivo em especifico, ver diagrama de classes e começar o relatorio.
+        texto = sc.nextLine();
+        System.out.println("Insira o novo valor base:");
+        valBase = sc.nextInt();
+
+        for(ArrayList<CasaInteligente> cil : lot.getLoteamento().values()){
+            for(CasaInteligente ci : cil){
+                if(texto.equals(ci.getForn().getString())){
+                    ci.getForn().setValorBase(valBase);
+                }
+            }
+        }
+    }
 
     public double calculaFaturaCasa(int dias, CasaInteligente casa){
                double res = 0;
