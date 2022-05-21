@@ -4,13 +4,14 @@ import java.util.*;
  * A CasaInteligente faz a gestão dos SmartDevices que existem e dos
  * espaços (as salas) que existem na casa.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Hugo Rocha, Gabriel Silva, José Faria
+ *
  */
+
 public class CasaInteligente extends Loteamento {
 
     private String nome;
-    private int id;
+    private String id;
     private int nif;
     private Map<String, SmartDevice> devices; // identificador -> SmartDevice
     private Map<String, List<String>> locations; // Espaço -> Lista codigo dos devices
@@ -18,38 +19,36 @@ public class CasaInteligente extends Loteamento {
     private String deviceID = "1";
 
 
-    /**
-     * Constructor for objects of class CasaInteligente
-     */
+
     public CasaInteligente() {
         this.nome = "";
         this.nif = 0;
-        this.id = 0;
+        this.id = "";
         this.devices = new HashMap();
         this.locations = new HashMap();
     }
 
-    public CasaInteligente(String nome) {
+    public CasaInteligente(String nome, String id) {
         this.nome = nome;
         this.nif = 0;
-        this.id = 0;
+        this.id = id;
         this.devices = new HashMap();
         this.locations = new HashMap();
     }
 
-    public CasaInteligente(int nif, String nome, Fornecedor forn) {
+    public CasaInteligente(int nif, String nome, Fornecedor forn, String id) {
         this.nome = nome;
         this.nif = nif;
-        this.id = 0;
+        this.id = id;
         this.devices = new HashMap<>();
         this.locations = new HashMap<>();
         this.forn = forn;
     }
 
-    public CasaInteligente(int nif, String nome, Fornecedor forn, Map<String, SmartDevice> devices, Map<String, List<String>> locations) {
+    public CasaInteligente(int nif, String nome, Fornecedor forn, Map<String, SmartDevice> devices, Map<String, List<String>> locations, String id) {
         this.nome = nome;
         this.nif = nif;
-        this.id = 0;
+        this.id = id;
         this.devices = new HashMap<>();
         this.locations = new HashMap<>();
 
@@ -67,30 +66,12 @@ public class CasaInteligente extends Loteamento {
 
         this.forn = forn;
     }
-/*
-    public CasaInteligente(CasaInteligente casa){
-        this.nif = casa.getNif();
-        this.nome = casa.getNome();
-        this.forn = casa.getForn();
 
-        for(SmartDevice dev : casa.devices.values()){
-            this.devices.put(dev.getID(),dev.clone());
-        }
-
-        for(Map.Entry<String, List<String>> pair: casa.locations.entrySet()){
-            List<String> lista = new ArrayList<>();
-            for(String id: pair.getValue()){
-                lista.add(id);
-            }
-            this.locations.put(pair.getKey(), lista);
-        }
-    }*/
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -127,6 +108,14 @@ public class CasaInteligente extends Loteamento {
         }
 
         return novo;
+    }
+
+    public void setDevices(Map<String, SmartDevice> mapa) {
+
+        for (Map.Entry<String, SmartDevice> pair : mapa.entrySet()) {
+            this.devices.put(pair.getKey(), pair.getValue().clone());
+        }
+
     }
 
     public void setForn(Fornecedor forn) {
@@ -172,8 +161,14 @@ public class CasaInteligente extends Loteamento {
         return this.locations.containsKey(s);
     }
 
-    public void addToRoom(String s1, String s2) {
-        this.locations.get(s1).add(s2);
+    public void addToRoom(String s1, String s2) {//Adiciona um dispositivo em particular a uma divisão específica
+        if(this.locations.containsKey(s1))
+            this.locations.get(s1).add(s2);
+        else{
+            List<String> lista = new ArrayList<>();
+            lista.add(s2);
+            this.locations.put(s1, lista);
+        }
     }
 
     public boolean roomHasDevice(String s1, String s2) {
@@ -181,7 +176,7 @@ public class CasaInteligente extends Loteamento {
     }
 
     public CasaInteligente clone() {
-        return new CasaInteligente(this.nif, this.nome, this.forn, this.devices, this.locations);
+        return new CasaInteligente(this.nif, this.nome, this.forn, this.devices, this.locations, this.id);
     }
 
     public boolean equals(Object o) {
@@ -195,22 +190,47 @@ public class CasaInteligente extends Loteamento {
         int sum = 0;
 
         for (SmartDevice dev : this.devices.values()) {
-            sum += this.forn.getValorBase() * dev.getConsumoDiarioEN() * (1 + 0.35) * 0.9;
+            if(dev instanceof SmartCamera) {
+                if (dev.getOn() == true) {
+
+                    sum += this.forn.getValorBase() * ((SmartCamera) dev).CalculaConsumoEnergetico() * (1 + 0.35) * 0.9;
+                }
+            }
         }
+
+        for (SmartDevice dev : this.devices.values()) {
+            if(dev instanceof SmartSpeaker){
+                if(dev.getOn() == true){
+
+                    sum += this.forn.getValorBase() * ((SmartCamera) dev).CalculaConsumoEnergetico() * (1 + 0.35) * 0.9;
+                }
+            }
+
+        }
+
+        for (SmartDevice dev : this.devices.values()) {
+            if(dev instanceof SmartBulb) {
+                if(dev.getOn() == true){
+
+                    sum += this.forn.getValorBase() * ((SmartCamera) dev).CalculaConsumoEnergetico() * (1 + 0.35) * 0.9;
+                }
+            }
+        }
+
 
         return sum;
     }
 
 
+
     public String toString() {
         return "CasaInteligente{" +
                 "nome='" + nome + '\'' +
+                ", id='" + id + '\'' +
                 ", nif=" + nif +
                 ", devices=" + devices +
                 ", locations=" + locations +
                 ", forn=" + forn +
-                ", deviceID='" + deviceID + '\'' +
                 '}';
     }
 }
-
