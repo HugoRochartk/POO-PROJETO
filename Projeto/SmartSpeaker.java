@@ -7,11 +7,11 @@ import java.util.Objects;
  * Consegue ligar-se a um canal (por simplificação uma rádio online) e permite
  * a regulação do seu nível de volume.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author José Faria, Hugo Rocha, Gabriel Silva
+ *
  */
 
-public class SmartSpeaker extends SmartDevice {
+public class SmartSpeaker extends SmartDevice implements Devices {
     public static final int MAX = 20; //volume máximo
     
 
@@ -20,9 +20,7 @@ public class SmartSpeaker extends SmartDevice {
     private String marca;
     private double consumoEnergetico;
 
-    /**
-     * Constructor for objects of class SmartSpeaker
-     */
+    
     public SmartSpeaker() {
         super();
         this.marca = "JBL";
@@ -30,8 +28,8 @@ public class SmartSpeaker extends SmartDevice {
         this.volume = 10;
     }
 
-    public SmartSpeaker(String s, boolean b, double consumo) {
-        super(s,b,consumo);
+    public SmartSpeaker(String s, boolean b) {
+        super(s,b);
         this.marca = "JBL";
         this.channel = "RFM";
         this.volume = 10;
@@ -100,10 +98,10 @@ public class SmartSpeaker extends SmartDevice {
                 '}';
     }
 
-    public void CalculaConsumoEnergetico(){ //TODO SO PARA CLARIFICAR !!! neste caso como esta classe nao recebe o valor do consumo da lampada como variavel de instancia esse passa a ser o valor arbitrario e os valores passados a MARSHALL, BOSE e JBL sao agora os fatores multiplicativos do volume.(neste caso nao faz tant sentido mas foi pra facilitar)
+    public double CalculaConsumoEnergetico(){
 
-                super.ConsumoDiarioEN = this.consumoEnergetico * this.volume;
+                 double res = (this.consumoEnergetico * this.volume)/100;
 
-
+                 return res;
     }
 }
