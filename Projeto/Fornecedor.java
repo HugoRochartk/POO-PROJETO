@@ -1,5 +1,14 @@
 import java.util.Objects;
 
+/**
+ * A classe Fornecedor é um comercializador
+ * de energia que possui o seu nome e o valor
+ * base de venda.
+ *
+ * @author Gabriel Silva, Hugo Rocha, José Faria
+ *
+ */
+
 public class Fornecedor {
 
         private String string;
