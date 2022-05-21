@@ -1,20 +1,15 @@
-public class SmartCamera extends SmartDevice {
+/**
+ * A SmartCamera é uma camera que permite
+ * variar de resolução e ser desligada ou
+ * ligada (subclasse de SmartDevice).
+ *
+ * @author Hugo Rocha, Gabriel Silva, José Faria
+ *
+ */
+public class SmartCamera extends SmartDevice implements Devices{
 
     private String resolucao;  
-    /*- VGA: 640 x 480 pixels;
-      - QVGA: 320 x 240 pixels;
-      - WVGA: 800 x 480 pixels;
-      - SVGA / Super VGA: 800 x 600 pixels;
-      - XGA: 1024 x 768 pixels;
-      - WXGA: de 1152 x 768 pixels a 1366 x 768 pixels;
-      - HD / 720p : 1280 x 720 pixels;
-      - qHD: 960 x 540 pixels;
-      - full HD (FHD ou 1080p): 1920 x 1080 pixels;
-      - QHD (WQHD): 2560 x 1440 pixels.
-      - 2K: 2048 x 1080 pixels;
-      - 4K (UHDTV ou QFHD): 3840 x 2160 pixels;
-      - 8K: de 7680 x 4320 pixels a 10080 x 4320 pixels (depende da proporção do aparelho).
-    */
+
     private int tamanho;
     private double consumoEnergetico;
 
@@ -28,14 +23,14 @@ public class SmartCamera extends SmartDevice {
     
     
     public SmartCamera(String id, boolean b, double consumo){
-        super(id,b,consumo);
+        super(id,b);
         this.resolucao = "(1280x720)";
         this.tamanho = 10;
-        this.consumoEnergetico = 7.0;
+        this.consumoEnergetico = consumo;
     }
 
-    public SmartCamera(String id, boolean b, double consumo, String res, int tam, double consumoEnergetico){
-        super(id,b,consumo);
+    public SmartCamera(String id, boolean b, String res, int tam, double consumoEnergetico){
+        super(id,b);
         this.resolucao = res;
         this.tamanho = tam;
         this.consumoEnergetico = consumoEnergetico;
@@ -87,31 +82,39 @@ public class SmartCamera extends SmartDevice {
         return (this.resolucao.equalsIgnoreCase(that.resolucao) && this.tamanho == that.tamanho && this.consumoEnergetico == that.consumoEnergetico);
     }
 
+    public double getConsumoEnergetico() {
+        return this.consumoEnergetico;
+    }
 
-    public void calculaConsumoEnergetico(){
+    public void setConsumoEnergetico(double consumoEnergetico) {
+        this.consumoEnergetico = consumoEnergetico;
+    }
 
+    public double CalculaConsumoEnergetico(){
 
+        double res = .0;
           switch(resolucao.length()){
               case 9 -> {
-                  super.ConsumoDiarioEN = this.consumoEnergetico * (10);
+                  res = this.consumoEnergetico/10;
               }
               case 10 -> {
-                  super.ConsumoDiarioEN = this.consumoEnergetico * (15);
+                  res = (this.consumoEnergetico * (15))/100;
               }
 
               case 11 -> {
-                  super.ConsumoDiarioEN = this.consumoEnergetico * (20);
+                  res = (this.consumoEnergetico * (20))/100;
               }
 
               case 12 ->{
-                  super.ConsumoDiarioEN = this.consumoEnergetico * (30);
+                  res = (this.consumoEnergetico * (30))/100;
               }
 
           }
 
 
-
+        return res;
     }
 
     
 }
+
