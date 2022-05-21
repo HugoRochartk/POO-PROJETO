@@ -1,8 +1,17 @@
 import java.util.*;
 
+/**
+ * A classe Loteamento é responsável
+ * por associar, a cada propriétario,
+ * a lista das casas que este possuí.
+ *
+ * @author José Faria, Hugo Rocha, Gabriel Silva
+ *
+ */
+
 public class Loteamento {
-    private Map<Integer, ArrayList<CasaInteligente>> loteamento;  //  (nif, listadascasasquepossui)
-    private int casaID = 1;
+    private Map<Integer, ArrayList<CasaInteligente>> loteamento;  //  NIF -> Lista das cassas que possui
+
     
     public Loteamento(){
         this.loteamento = new HashMap<>();
@@ -42,8 +51,6 @@ public class Loteamento {
 
     public void addCasaInteligente(CasaInteligente c){
 
-         c.setId(this.casaID);
-         this.casaID +=1;
 
          if(this.loteamento.containsKey(c.getNif())){
             this.loteamento.get(c.getNif()).add(c.clone());
@@ -68,10 +75,6 @@ public class Loteamento {
         }
 
     }
-
-
-
-
 
     public boolean equals(Object o) {
         if (this == o) return true;
