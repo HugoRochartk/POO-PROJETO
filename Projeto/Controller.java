@@ -19,31 +19,38 @@ public class Controller {
              System.out.println("Dados carregados com sucesso!\n");
 
              int dias;
-             int opcao2;
+             int opcao;
 
              while(true){
                  System.out.println("Pretende avancar no tempo?\n");
                  System.out.println("0: Sim\n");
                  System.out.println("1: Nao\n");
-                 opcao2 = sc.nextInt();
-                 if(opcao2==1){
+                 opcao = sc.nextInt();
+                 if(opcao ==1){
                      break;
                  }
                  System.out.println("Quanto tempo, em dias, pretende avançar no tempo?\n");
                  dias = sc.nextInt();
-                 System.out.println("Indique a operação que pretende realizar:");
-                 System.out.println("0:Calcular faturas de todas as casas.");
-                 System.out.println("1:Alterar valores base fornecedores");
-                 opcao2 = sc.nextInt();
-                 if (opcao2 == 0) {
+                 System.out.println("Indique a operação que pretende realizar:\n");
+                 System.out.println("0:Calcular faturas de todas as casas.\n");
+                 System.out.println("1:Alterar valores base fornecedores.\n");
+                 System.out.println("2:Ligar/desligar dispositivos.\n");
+                 opcao = sc.nextInt();
+                 if (opcao == 0) {
                     printFaturasTodas(dias,lot);
 
                  }
 
-                 if (dias == 1){
+                 if (opcao == 1){
                     alteraValForn(lot);
 
                  }
+
+                 if(opcao == 2){
+                    changeStateDevices(lot);
+                 }
+
+
              }
 
              System.out.println("Fim\n");
@@ -56,7 +63,7 @@ public class Controller {
     public void printFaturasTodas(int dias, Loteamento lot){
         Map<CasaInteligente, Double> tot = calculaFaturasTodas(dias, lot);
         for (Map.Entry<CasaInteligente, Double> pair : tot.entrySet()) {
-            System.out.println("Casa:" + pair.getKey() + "; Fatura:" + pair.getValue() + ";");
+            System.out.println("Casa:" + pair.getKey() + "; Fatura:" + pair.getValue() + ";\n");
         }
     }
 
@@ -64,9 +71,9 @@ public class Controller {
         Scanner sc = new Scanner(System.in);
         String texto;
         int valBase;
-        System.out.println("Insira o fornecedor que quer alterar:"); //TODO terminar alteracao valores fornecedores, ligar e desligar todos e um dispositivo em especifico, ver diagrama de classes e começar o relatorio.
+        System.out.println("Insira o fornecedor que quer alterar:\n"); //TODO começar o relatorio.
         texto = sc.nextLine();
-        System.out.println("Insira o novo valor base:");
+        System.out.println("Insira o novo valor base:\n");
         valBase = sc.nextInt();
 
         for(ArrayList<CasaInteligente> cil : lot.getLoteamento().values()){
@@ -77,6 +84,47 @@ public class Controller {
             }
         }
     }
+
+    public void changeStateDevices(Loteamento lot){
+        System.out.println("Insira o id do dispositivo ou 'all' se pretender alterar o estado de todos os dispositivos.\n");
+        Scanner sc = new Scanner(System.in);
+        String id = sc.nextLine();
+
+        System.out.println("Insira:\n 'on' para ligar.\n 'off' para desligar.\n");
+        String stateLine = sc.nextLine();
+        boolean state = false;
+
+        if (stateLine.equals("on")) {
+            state = true;
+        }
+
+        if(id.equals("all")){
+            System.out.println("Insira o nif do proprietario:\n");
+            String nif = sc.nextLine();
+
+            for(ArrayList<CasaInteligente> cil: lot.getLoteamento().values()){
+                for(CasaInteligente ci : cil){
+                    if (nif.equals(ci.getNif())){
+                        ci.setAllOn(state);
+                    }
+                }
+            }
+
+        }
+        else {
+
+            for (ArrayList<CasaInteligente> cil : lot.getLoteamento().values()) {
+                for (CasaInteligente ci : cil) {
+                    for (SmartDevice sd : ci.getDevices().values()) {
+                        if (id.equals(sd.getID())) {
+                            sd.setOn(state);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     public double calculaFaturaCasa(int dias, CasaInteligente casa){
                double res = 0;
