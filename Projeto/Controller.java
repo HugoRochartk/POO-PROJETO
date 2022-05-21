@@ -215,6 +215,19 @@ public class Controller {
 
     public double calculaFaturaCasa(int dias, CasaInteligente casa){
 
+        for(SmartDevice sd : casa.getDevices().values()){
+            if(sd instanceof SmartSpeaker){
+                ((SmartSpeaker) sd).CalculaConsumoEnergetico();
+            }
+
+            if(sd instanceof SmartBulb){
+                ((SmartBulb) sd).CalculaConsumoEnergetico();
+            }
+
+            if(sd instanceof SmartCamera){
+                ((SmartCamera) sd).CalculaConsumoEnergetico();
+            }
+        }
         double res = casa.CustoDiarioDispositivos() * dias;
 
         return res;
