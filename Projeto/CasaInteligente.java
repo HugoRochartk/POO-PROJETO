@@ -7,9 +7,10 @@ import java.util.*;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class CasaInteligente extends Loteamento{
+public class CasaInteligente extends Loteamento {
 
     private String nome;
+    private int id;
     private int nif;
     private Map<String, SmartDevice> devices; // identificador -> SmartDevice
     private Map<String, List<String>> locations; // Espaço -> Lista codigo dos devices
@@ -23,6 +24,7 @@ public class CasaInteligente extends Loteamento{
     public CasaInteligente() {
         this.nome = "";
         this.nif = 0;
+        this.id = 0;
         this.devices = new HashMap();
         this.locations = new HashMap();
     }
@@ -30,13 +32,15 @@ public class CasaInteligente extends Loteamento{
     public CasaInteligente(String nome) {
         this.nome = nome;
         this.nif = 0;
+        this.id = 0;
         this.devices = new HashMap();
         this.locations = new HashMap();
     }
 
-    public CasaInteligente(int nif, String nome, Fornecedor forn){
+    public CasaInteligente(int nif, String nome, Fornecedor forn) {
         this.nome = nome;
         this.nif = nif;
+        this.id = 0;
         this.devices = new HashMap<>();
         this.locations = new HashMap<>();
         this.forn = forn;
@@ -45,16 +49,17 @@ public class CasaInteligente extends Loteamento{
     public CasaInteligente(int nif, String nome, Fornecedor forn, Map<String, SmartDevice> devices, Map<String, List<String>> locations) {
         this.nome = nome;
         this.nif = nif;
+        this.id = 0;
         this.devices = new HashMap<>();
         this.locations = new HashMap<>();
 
-        for(Map.Entry<String, SmartDevice> pair: devices.entrySet()){
+        for (Map.Entry<String, SmartDevice> pair : devices.entrySet()) {
             this.devices.put(pair.getKey(), pair.getValue().clone());
         }
 
-        for(Map.Entry<String, List<String>> pair: locations.entrySet()){
+        for (Map.Entry<String, List<String>> pair : locations.entrySet()) {
             List<String> lista = new ArrayList<>();
-            for(String s: pair.getValue()){
+            for (String s : pair.getValue()) {
                 lista.add(s);
             }
             this.locations.put(pair.getKey(), lista);
@@ -81,6 +86,14 @@ public class CasaInteligente extends Loteamento{
         }
     }*/
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setDeviceOn(String devCode) {
         this.devices.get(devCode).turnOn();
     }
@@ -89,27 +102,27 @@ public class CasaInteligente extends Loteamento{
         return this.devices.containsKey(id);
     }
 
-    public void setNome(String nome){
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public void setNif(int i){
+    public void setNif(int i) {
         this.nif = i;
     }
 
-    public int getNif(){
+    public int getNif() {
         return this.nif;
     }
 
-    public String getNome(){
+    public String getNome() {
         return this.nome;
     }
 
-    public Map<String, SmartDevice> getDevices(){
+    public Map<String, SmartDevice> getDevices() {
 
         Map<String, SmartDevice> novo = new HashMap<>();
 
-        for(Map.Entry<String, SmartDevice> pair: this.devices.entrySet()){
+        for (Map.Entry<String, SmartDevice> pair : this.devices.entrySet()) {
             novo.put(pair.getKey(), pair.getValue().clone());
         }
 
@@ -130,7 +143,7 @@ public class CasaInteligente extends Loteamento{
         s.setOn(false);
         this.devices.put(s.getID(), s.clone());
         int num = Integer.parseInt(this.deviceID);
-        num +=1;
+        num += 1;
         this.deviceID = Integer.toString(num);
     }
 
@@ -144,7 +157,7 @@ public class CasaInteligente extends Loteamento{
     }
 
     public void setAllOn(boolean b) {
-        for(SmartDevice d: this.devices.values()){
+        for (SmartDevice d : this.devices.values()) {
             d.setOn(b);
         }
     }
@@ -159,15 +172,15 @@ public class CasaInteligente extends Loteamento{
         return this.locations.containsKey(s);
     }
 
-    public void addToRoom (String s1, String s2) {
+    public void addToRoom(String s1, String s2) {
         this.locations.get(s1).add(s2);
     }
 
-    public boolean roomHasDevice (String s1, String s2) {
+    public boolean roomHasDevice(String s1, String s2) {
         return this.locations.get(s1).contains(s2);
     }
 
-    public CasaInteligente clone(){
+    public CasaInteligente clone() {
         return new CasaInteligente(this.nif, this.nome, this.forn, this.devices, this.locations);
     }
 
@@ -178,11 +191,11 @@ public class CasaInteligente extends Loteamento{
         return (this.nif == that.nif && this.nome.equalsIgnoreCase(that.nome) && this.devices.equals(that.devices) && this.locations.equals(that.locations));
     }
 
-    public int CustoDiarioDispositivos(){
+    public int CustoDiarioDispositivos() {
         int sum = 0;
 
-        for(SmartDevice dev: this.devices.values()){
-            sum += this.forn.getValorBase() * dev.getConsumoDiarioEN() * (1+ 0.35) * 0.9;
+        for (SmartDevice dev : this.devices.values()) {
+            sum += this.forn.getValorBase() * dev.getConsumoDiarioEN() * (1 + 0.35) * 0.9;
         }
 
         return sum;
@@ -199,4 +212,5 @@ public class CasaInteligente extends Loteamento{
                 ", deviceID='" + deviceID + '\'' +
                 '}';
     }
+}
 
