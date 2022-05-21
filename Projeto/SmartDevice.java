@@ -1,42 +1,37 @@
-**
+/**
  * A classe SmartDevice é um contactor simples.
  * Permite ligar ou desligar circuitos. 
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Gabriel Silva, Hugo Rocha, José Faria
  */
 
 public class SmartDevice {
 
     private String id;
     private boolean on;
-    public double ConsumoDiarioEN;
 
-    /**
-     * Constructor for objects of class SmartDevice
-     */
+
+
     public SmartDevice() {
         this.id = "";
         this.on = false;
-        this.ConsumoDiarioEN = 0;
+
     }
 
 
-    public SmartDevice(String s,double c) {
-        this.ConsumoDiarioEN = c;
+    public SmartDevice(String s) {
         this.id = s;
         this.on = false;
     }
 
 
-    public SmartDevice(String s, boolean b,double c) {
-        this.ConsumoDiarioEN = c;
+    public SmartDevice(String s, boolean b) {
         this.id = s;
         this.on = b;
     }
 
     public SmartDevice clone(){
-        return new SmartDevice(this.id, this.on,this.ConsumoDiarioEN);
+        return new SmartDevice(this.id, this.on);
 
     }
 
@@ -57,7 +52,6 @@ public class SmartDevice {
         return "SmartDevice{" +
                 "id='" + id + '\'' +
                 ", on=" + on +
-                ", ConsumoDiarioEN=" + ConsumoDiarioEN +
                 '}';
     }
 
@@ -73,19 +67,12 @@ public class SmartDevice {
         this.id = id;
     }
 
-    public double getConsumoDiarioEN() {
-        return this.ConsumoDiarioEN;
-    }
-
-    public void setConsumoDiarioEN(double consumoDiarioEN) {
-        this.ConsumoDiarioEN = consumoDiarioEN;
-    }
 
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         SmartDevice that = (SmartDevice) o;
-        return (this.on == that.on && this.id.equalsIgnoreCase(that.id) && this.ConsumoDiarioEN == that.ConsumoDiarioEN);
+        return (this.on == that.on && this.id.equalsIgnoreCase(that.id));
     }
 
 }
