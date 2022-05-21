@@ -4,11 +4,21 @@ import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
+
+/**
+ * O Parser é responsável pela leitura de dados
+ * do ficheiro logs. É nele que são criadas casas,
+ * aparelhos e os comercializadores de energia.
+ *
+ * @author Hugo Rocha, Gabriel Silva, José Faria
+ *
+ */
 
 public class Parser {
-    int rand = 2;
+    int rand = 5;
+    String idd = "0";
+
 
     public Loteamento parse(){
         List<String> linhas = lerFicheiro("log.txt");
@@ -35,7 +45,6 @@ public class Parser {
                     assert casaMaisRecente != null;
                     casaMaisRecente.addDevice(sd);
                     casaMaisRecente.addToRoom(divisao, sd.getID());
-                   // System.out.println(casaMaisRecente.toString());
                     break;
                 case "SmartSpeaker":
                     if (divisao == null) System.out.println("Linha inválida.");
@@ -77,7 +86,10 @@ public class Parser {
         int nif = Integer.parseInt(campos[1]);
         Fornecedor forn = new Fornecedor();
         forn.setString(campos[2]);
-        return new CasaInteligente(nif, nome, forn);
+        int num = Integer.parseInt(idd);
+        num += 1;
+        idd = Integer.toString(num);
+        return new CasaInteligente(nif, nome, forn, idd);
     }
 
     public SmartBulb parseSmartBulb(String input){
@@ -123,4 +135,3 @@ public class Parser {
 
 
 }
-
