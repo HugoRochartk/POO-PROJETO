@@ -1,4 +1,11 @@
-public interface Devices {
+/**
+ * A interface Devices possuí um método comum aos três tipos
+ * de aparelhos (SmartSpeaker, SmartBulb, SmartCamera).
+ *
+ * @author Gabriel Silva, Hugo Rocha, José Faria
+ *
+ */
 
-    public void CalculaConsumoEnergetico();
+public interface Devices {
+    public double CalculaConsumoEnergetico();
 }
