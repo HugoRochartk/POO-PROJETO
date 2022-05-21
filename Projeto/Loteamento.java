@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Loteamento {
     private Map<Integer, ArrayList<CasaInteligente>> loteamento;  //  (nif, listadascasasquepossui)
-   
+    private int casaID = 1;
     
     public Loteamento(){
         this.loteamento = new HashMap<>();
@@ -41,6 +41,10 @@ public class Loteamento {
     }
 
     public void addCasaInteligente(CasaInteligente c){
+
+         c.setId(this.casaID);
+         this.casaID +=1;
+
          if(this.loteamento.containsKey(c.getNif())){
             this.loteamento.get(c.getNif()).add(c.clone());
          }
@@ -54,7 +58,15 @@ public class Loteamento {
 
 
     public ArrayList<CasaInteligente> getCasasInteligentes(int nif){  //dada uma pessoa retorna as casas que lhe pertencem
-        return this.loteamento.get(nif);
+
+        if(this.loteamento.containsKey(nif)) {
+            return this.loteamento.get(nif);
+        }
+        else{
+            System.out.println("Nif nao existente!");
+            return null;
+        }
+
     }
 
 
