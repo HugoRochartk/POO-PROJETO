@@ -1,15 +1,23 @@
 import java.util.*;
 
+/**
+ * O Controller é responsável pela interação, via
+ * menus em modo texto, com o utilizador. É também
+ * responsável pelos diversos cálculos estatísticos
+ * pedidos no enunciado,
+ *
+ * @author Hugo Rocha, Gabriel Silva, José Faria
+ *
+ */
+
 public class Controller {
 
     public void run(){
            Scanner sc = new Scanner(System.in);
 
            System.out.println("\n\nBem-vindo!\n\n");
-           System.out.println("Escolha uma das seguintes opcoes:\n");
+           System.out.println("Prima 0 para carregar os dados.\n");
 
-
-           System.out.println("0: Carregar dados.\n");
 
            int op = sc.nextInt();
 
@@ -29,9 +37,9 @@ public class Controller {
                  if(opcao ==1){
                      break;
                  }
-                 System.out.println("Quanto tempo, em dias, pretende avançar no tempo?\n");
+                 System.out.println("Quanto tempo, em dias, pretende avancar no tempo?\n");
                  dias = sc.nextInt();
-                 System.out.println("Indique a operação que pretende realizar:\n");
+                 System.out.println("Indique a operação que pretende realizar:\n\n");
                  System.out.println("0:Calcular faturas de todas as casas.\n");
                  System.out.println("1:Alterar valores base fornecedores.\n");
                  System.out.println("2:Ligar/desligar dispositivos.\n");
@@ -68,18 +76,17 @@ public class Controller {
                 }
              }
 
-             System.out.println("Fim\n");
+             System.out.println("Fim.\n");
 
            }
 
 
     }
 
-    //DEBUG
     public void printFaturasTodas(int dias, Loteamento lot){
         Map<CasaInteligente, Double> tot = calculaFaturasTodas(dias, lot);
         for (Map.Entry<CasaInteligente, Double> pair : tot.entrySet()) {
-            System.out.println("Casa:" + pair.getKey() + "; Fatura:" + pair.getValue() + ";\n");
+            System.out.println("Casa:" + pair.getKey().getId() + "; Fatura:" + pair.getValue() + ";\n");
         }
     }
 
@@ -87,7 +94,7 @@ public class Controller {
         Scanner sc = new Scanner(System.in);
         String texto;
         int valBase;
-        System.out.println("Insira o fornecedor que quer alterar:\n"); //TODO começar o relatorio.
+        System.out.println("Insira o nome do fornecedor que quer alterar:\n"); //TODO começar o relatorio.
         texto = sc.nextLine();
         System.out.println("Insira o novo valor base:\n");
         valBase = sc.nextInt();
@@ -99,6 +106,36 @@ public class Controller {
                 }
             }
         }
+    }
+
+    public Map<String,Map<String,Double>> faturacaoFornecedores(Loteamento lot,int dias,int flag) {
+        Map<String, Map<String, Double>> faturas = new HashMap<>();
+        Double val = 0.0;
+        for (ArrayList<CasaInteligente> cil : lot.getLoteamento().values()) {
+            for (CasaInteligente ci : cil) {
+                val = calculaFaturaCasa(dias, ci);
+                if (faturas.containsKey(ci.getForn().getString())) {
+                    faturas.get(ci.getForn().getString()).put(ci.getId(), val);
+                }
+
+                else {
+                    Map<String, Double> novo = new HashMap<>();
+                    novo.put(ci.getId(), val);
+                    faturas.put(ci.getForn().getString(), novo);
+                }
+            }
+        }
+        if(flag == 1) {
+            for (Map.Entry<String, Map<String, Double>> pair : faturas.entrySet()) {
+
+                System.out.println("Fornecedor:" + pair.getKey() + "\n");
+
+                for (Map.Entry<String, Double> par : pair.getValue().entrySet()) {
+                    System.out.println("\tCasa: " + par.getKey() + "-> Fatura: " + par.getValue() + "\n");
+                }
+            }
+        }
+        return faturas;
     }
 
     public void changeStateDevices(Loteamento lot){
@@ -116,11 +153,11 @@ public class Controller {
 
         if(id.equals("all")){
             System.out.println("Insira o nif do proprietario:\n");
-            String nif = sc.nextLine();
+            int nif = sc.nextInt();
 
             for(ArrayList<CasaInteligente> cil: lot.getLoteamento().values()){
                 for(CasaInteligente ci : cil){
-                    if (nif.equals(ci.getNif())){
+                    if (nif == ci.getNif()){
                         ci.setAllOn(state);
                     }
                 }
@@ -142,7 +179,7 @@ public class Controller {
     }
 
     public void maxGastoCasa(Map<CasaInteligente,Double> faturas){
-        Double max = Double.MIN_VALUE;
+        Double max = -1000.0;
         CasaInteligente resultado = new CasaInteligente();
         for(Map.Entry<CasaInteligente,Double> pair : faturas.entrySet()){
             if(pair.getValue() > max){
@@ -155,41 +192,13 @@ public class Controller {
     }
 
 
-    public Map<String,Map<Integer,Double>> faturacaoFornecedores(Loteamento lot,int dias,int flag) {
-        Map<String, Map<Integer, Double>> faturas = new HashMap<>();
-        Double val = 0.0;
-        for (ArrayList<CasaInteligente> cil : lot.getLoteamento().values()) {
-            for (CasaInteligente ci : cil) {
-                val = calculaFaturaCasa(dias, ci);
-                if (faturas.containsKey(ci.getForn().getString())) {
-                    faturas.get(ci.getForn().getString()).put(ci.getId(), val);
-                }
 
-                else {
-                    Map<Integer, Double> novo = new HashMap<>();
-                    novo.put(ci.getId(), val);
-                    faturas.put(ci.getForn().getString(), novo);
-                }
-            }
-        }
-        if(flag == 1) {
-            for (Map.Entry<String, Map<Integer, Double>> pair : faturas.entrySet()) {
 
-                System.out.println("Fornecedor:" + pair.getKey() + "\n");
-
-                for (Map.Entry<Integer, Double> par : pair.getValue().entrySet()) {
-                    System.out.println("\tCasa: " + par.getKey() + "-> Fatura: " + par.getValue() + "\n");
-                }
-            }
-        }
-        return faturas;
-    }
-
-    public void maxFaturacaoForn(Map<String,Map<Integer,Double>> faturas){
+    public void maxFaturacaoForn(Map<String,Map<String,Double>> faturas){
         double max = Double.MIN_VALUE;
         double sum = 0.0;
         String forn = "EDP Comercial";
-        for(Map.Entry<String,Map<Integer,Double>> pair : faturas.entrySet()){
+        for(Map.Entry<String,Map<String,Double>> pair : faturas.entrySet()){
             sum = 0.0;
             for(Double d : pair.getValue().values()){
                 sum += d;
@@ -207,7 +216,15 @@ public class Controller {
                double res = 0;
 
                for(SmartDevice d: casa.getDevices().values()){
-                   res += (d.getConsumoDiarioEN() * dias);
+                   if( d instanceof SmartBulb){
+                      res += ((SmartBulb) d).getConsumoEnergetico() * 24 * dias;
+                   }
+                   if( d instanceof SmartSpeaker){
+                       res += ((SmartSpeaker) d).CalculaConsumoEnergetico()* 24 * dias;
+                   }
+                   if( d instanceof  SmartCamera){
+                       res += ((SmartCamera) d).CalculaConsumoEnergetico() * 24 * dias;
+                   }
                }
 
                return res;
@@ -215,19 +232,6 @@ public class Controller {
 
     public double calculaFaturaCasa(int dias, CasaInteligente casa){
 
-        for(SmartDevice sd : casa.getDevices().values()){
-            if(sd instanceof SmartSpeaker){
-                ((SmartSpeaker) sd).CalculaConsumoEnergetico();
-            }
-
-            if(sd instanceof SmartBulb){
-                ((SmartBulb) sd).CalculaConsumoEnergetico();
-            }
-
-            if(sd instanceof SmartCamera){
-                ((SmartCamera) sd).CalculaConsumoEnergetico();
-            }
-        }
         double res = casa.CustoDiarioDispositivos() * dias;
 
         return res;
