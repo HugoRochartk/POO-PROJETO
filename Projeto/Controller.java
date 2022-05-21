@@ -20,7 +20,7 @@ public class Controller {
 
              int dias;
              int opcao;
-
+             int flag;
              while(true){
                  System.out.println("Pretende avancar no tempo?\n");
                  System.out.println("0: Sim\n");
@@ -35,6 +35,9 @@ public class Controller {
                  System.out.println("0:Calcular faturas de todas as casas.\n");
                  System.out.println("1:Alterar valores base fornecedores.\n");
                  System.out.println("2:Ligar/desligar dispositivos.\n");
+                 System.out.println("3:Verificar casa com maior gasto monetario.\n");
+                 System.out.println("4:Verificar fornecedor com maior volume de faturacao.\n");
+                 System.out.println("5:Listar faturas emitidas pelos fornecedores.\n");
                  opcao = sc.nextInt();
                  if (opcao == 0) {
                     printFaturasTodas(dias,lot);
@@ -50,7 +53,19 @@ public class Controller {
                     changeStateDevices(lot);
                  }
 
+                if(opcao == 3){
+                    maxGastoCasa(calculaFaturasTodas(dias,lot));
+                }
 
+                if(opcao == 4){
+                    flag = 0;
+                    maxFaturacaoForn(faturacaoFornecedores(lot,dias,flag));
+                }
+
+                if(opcao == 5){
+                    flag = 1;
+                    faturacaoFornecedores(lot,dias,flag);
+                }
              }
 
              System.out.println("Fim\n");
@@ -60,6 +75,7 @@ public class Controller {
 
     }
 
+    //DEBUG
     public void printFaturasTodas(int dias, Loteamento lot){
         Map<CasaInteligente, Double> tot = calculaFaturasTodas(dias, lot);
         for (Map.Entry<CasaInteligente, Double> pair : tot.entrySet()) {
@@ -125,8 +141,69 @@ public class Controller {
         }
     }
 
+    public void maxGastoCasa(Map<CasaInteligente,Double> faturas){
+        Double max = Double.MIN_VALUE;
+        CasaInteligente resultado = new CasaInteligente();
+        for(Map.Entry<CasaInteligente,Double> pair : faturas.entrySet()){
+            if(pair.getValue() > max){
+                max = pair.getValue();
+                resultado = pair.getKey().clone();
+                resultado.setId(pair.getKey().getId());
+            }
+        }
+        System.out.println("Casa:" + resultado.getId() + "; Fatura:" + max + ";");
+    }
 
-    public double calculaFaturaCasa(int dias, CasaInteligente casa){
+
+    public Map<String,Map<Integer,Double>> faturacaoFornecedores(Loteamento lot,int dias,int flag) {
+        Map<String, Map<Integer, Double>> faturas = new HashMap<>();
+        Double val = 0.0;
+        for (ArrayList<CasaInteligente> cil : lot.getLoteamento().values()) {
+            for (CasaInteligente ci : cil) {
+                val = calculaFaturaCasa(dias, ci);
+                if (faturas.containsKey(ci.getForn().getString())) {
+                    faturas.get(ci.getForn().getString()).put(ci.getId(), val);
+                }
+
+                else {
+                    Map<Integer, Double> novo = new HashMap<>();
+                    novo.put(ci.getId(), val);
+                    faturas.put(ci.getForn().getString(), novo);
+                }
+            }
+        }
+        if(flag == 1) {
+            for (Map.Entry<String, Map<Integer, Double>> pair : faturas.entrySet()) {
+
+                System.out.println("Fornecedor:" + pair.getKey() + "\n");
+
+                for (Map.Entry<Integer, Double> par : pair.getValue().entrySet()) {
+                    System.out.println("\tCasa: " + par.getKey() + "-> Fatura: " + par.getValue() + "\n");
+                }
+            }
+        }
+        return faturas;
+    }
+
+    public void maxFaturacaoForn(Map<String,Map<Integer,Double>> faturas){
+        double max = Double.MIN_VALUE;
+        double sum = 0.0;
+        String forn = "EDP Comercial";
+        for(Map.Entry<String,Map<Integer,Double>> pair : faturas.entrySet()){
+            sum = 0.0;
+            for(Double d : pair.getValue().values()){
+                sum += d;
+            }
+            if(sum > max){
+                forn = pair.getKey();
+                max = sum;
+            }
+        }
+        System.out.println("Fornecedor:" + forn + "-> Faturacao: " + max);
+    }
+
+
+    public double calculaEnergiaCasa(int dias, CasaInteligente casa){
                double res = 0;
 
                for(SmartDevice d: casa.getDevices().values()){
@@ -134,6 +211,13 @@ public class Controller {
                }
 
                return res;
+    }
+
+    public double calculaFaturaCasa(int dias, CasaInteligente casa){
+
+        double res = casa.CustoDiarioDispositivos() * dias;
+
+        return res;
     }
 
     public Map<CasaInteligente, Double> calculaFaturasTodas(int dias, Loteamento lot){
